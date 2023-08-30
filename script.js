@@ -41,15 +41,30 @@ const phoneDisplay = phones =>{
     </div>`;
     phoneContainer.appendChild(div);
 
-   })
+   });
+   toggler(false);
+
 }
 handler();
 
 // button search
 const search = () =>{
+    toggler(true);
     const searchfield = document.getElementById('input-field');
     const searchText = searchfield.value;
     searchfield.value = '';
     handler(searchText);
 
+}
+
+
+// function for spinner
+const toggler = (isloading) =>{
+    spin = document.getElementById('spin');
+    if(isloading){
+        spin.classList.remove('hidden');
+    }
+    else{
+        spin.classList.add('hidden');
+    }
 }
