@@ -1,18 +1,18 @@
-const handler = async (searchText) =>{
+const handler = async (searchText, isShowAll) =>{
     const res = await fetch(`https://openapi.programming-hero.com/api/phones?search=${searchText}`);
     const data = await res.json();
     const phones = data.data;
-    phoneDisplay(phones);
+    phoneDisplay(phones, isShowAll);
 }
 
-const phoneDisplay = phones =>{
+const phoneDisplay = (phones,isShowAll) =>{
    const phoneContainer = document.getElementById('phone-container');
        // to restore  empty value before another search
        phoneContainer.textContent = '';
 
           // checking lenghts for search items to show over 12 and enabling disabled button
           btnShow = document.getElementById('btn-show');
-          if(phones.length>12){
+          if(phones.length>12 && !isShowAll){
               btnShow.classList.remove('hidden')
               
           }
@@ -21,7 +21,10 @@ const phoneDisplay = phones =>{
           }
 
         //   showing minimal result upto 12 items
-        phones = phones.slice(0,12);
+        if(!isShowAll){
+            phones = phones.slice(0,12);
+        }
+       
 
    phones.forEach(phone => {
     // console.log(phone);
@@ -48,12 +51,12 @@ const phoneDisplay = phones =>{
 handler();
 
 // button search
-const search = () =>{
+const search = (isShowAll) =>{
     toggler(true);
     const searchfield = document.getElementById('input-field');
     const searchText = searchfield.value;
-    searchfield.value = '';
-    handler(searchText);
+    // searchfield.value = '';
+    handler(searchText, isShowAll);
 
 }
 
@@ -67,4 +70,10 @@ const toggler = (isloading) =>{
     else{
         spin.classList.add('hidden');
     }
+}
+
+
+// show btn er kaj
+const showAll = () =>{
+    search(true);
 }
